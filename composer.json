@@ -1,0 +1,27 @@
+{
+    "name": "henwen/library",
+    "description": "HenwenChang Library",
+    "type": "library",
+    "require": {
+        "sergeytsalkov/meekrodb": "^2.3",
+        "nesbot/carbon": "^1.37",
+        "monolog/monolog": "^1.24",
+        "league/csv": "^8.2"
+    },
+    "authors": [
+        {
+            "name": "Henwen Chang",
+            "email": "henwen.chang@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Henwen\\Common\\":"Henwen/Common/",
+            "Henwen\\Logger\\":"Henwen/Logger/"
+        },
+        "files":[
+            "config/mysql_setting.php",
+            "config/php_setting.php"
+        ]
+    }
+}
