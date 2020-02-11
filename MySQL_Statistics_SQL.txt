@@ -1,52 +1,15 @@
-----------¬Ý¦U¿¤¥«ªº¤f¸n¼Æ¶q----------
+----------çœ‹å„ç¸£å¸‚çš„å£ç½©æ•¸é‡----------
 SELECT CASE c.name 
-WHEN '°ò¶©' THEN '°ò¶©'
-WHEN '¥x¥_' THEN '¥x¥_'
-WHEN '·s¥_' THEN '·s¥_'
-WHEN '®ç¶é' THEN '®ç¶é'
-WHEN '·s¦Ë' THEN '·s¦Ë'
-WHEN '­]®ß' THEN '­]®ß'
-WHEN '»O¤¤' THEN '¥x¤¤'
-WHEN '¥x¤¤' THEN '¥x¤¤'
-WHEN '«n§ë' THEN '«n§ë'
-WHEN '¹ü¤Æ' THEN '¹ü¤Æ'
-WHEN '¶³ªL' THEN '¶³ªL'
-WHEN '¹Å¸q' THEN '¹Å¸q'
-WHEN '¥x«n' THEN '¥x«n'
-WHEN '°ª¶¯' THEN '°ª¶¯'
-WHEN '«ÌªF' THEN '«ÌªF'
-WHEN '©yÄõ' THEN '©yÄõ'
-WHEN 'ªá½¬' THEN 'ªá½¬'
-WHEN '¥xªF' THEN '¥xªF'
-WHEN '³s¦¿' THEN '³s¦¿'
-WHEN '¼ê´ò' THEN '¼ê´ò'
-WHEN 'ª÷ªù' THEN 'ª÷ªù'
-END AS County, SUM(p.adult) AS Adult, SUM(p.kid) AS Kid FROM pharmacy AS p 
+WHEN 'è‡ºä¸­' THEN 'å°ä¸­'
+WHEN 'å°ä¸­' THEN 'å°ä¸­'
+ELSE c.name END AS County, SUM(p.adult) AS Adult, SUM(p.kid) AS Kid FROM pharmacy AS p 
 INNER JOIN county AS c ON p.county_id = c.county_id 
 GROUP BY CASE c.name 
-WHEN '°ò¶©' THEN '°ò¶©'
-WHEN '¥x¥_' THEN '¥x¥_'
-WHEN '·s¥_' THEN '·s¥_'
-WHEN '®ç¶é' THEN '®ç¶é'
-WHEN '·s¦Ë' THEN '·s¦Ë'
-WHEN '­]®ß' THEN '­]®ß'
-WHEN '»O¤¤' THEN '¥x¤¤'
-WHEN '¥x¤¤' THEN '¥x¤¤'
-WHEN '«n§ë' THEN '«n§ë'
-WHEN '¹ü¤Æ' THEN '¹ü¤Æ'
-WHEN '¶³ªL' THEN '¶³ªL'
-WHEN '¹Å¸q' THEN '¹Å¸q'
-WHEN '¥x«n' THEN '¥x«n'
-WHEN '°ª¶¯' THEN '°ª¶¯'
-WHEN '«ÌªF' THEN '«ÌªF'
-WHEN '©yÄõ' THEN '©yÄõ'
-WHEN 'ªá½¬' THEN 'ªá½¬'
-WHEN '¥xªF' THEN '¥xªF'
-WHEN '³s¦¿' THEN '³s¦¿'
-WHEN '¼ê´ò' THEN '¼ê´ò'
-WHEN 'ª÷ªù' THEN 'ª÷ªù'
-END ;
-----------¬Ý¦U°Ï¶mÂíªº¤f¸n¼Æ¶q----------
+WHEN 'è‡ºä¸­' THEN 'å°ä¸­'
+WHEN 'å°ä¸­' THEN 'å°ä¸­'
+LSE c.name END ;
+
+----------çœ‹å„å€é„‰éŽ®çš„å£ç½©æ•¸é‡----------
 SELECT c.name AS County, d.name AS District, SUM(p.adult) AS Adult, SUM(p.kid) AS Kid FROM pharmacy AS p 
 INNER JOIN county AS c ON p.county_id = c.county_id 
 INNER JOIN district AS d ON p.district_id = d.district_id 
