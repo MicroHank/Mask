@@ -7,7 +7,7 @@ INNER JOIN county AS c ON p.county_id = c.county_id
 GROUP BY CASE c.name 
 WHEN '臺中' THEN '台中'
 WHEN '台中' THEN '台中'
-LSE c.name END ;
+ELSE c.name END ;
 
 ----------看各區鄉鎮的口罩數量----------
 SELECT c.name AS County, d.name AS District, SUM(p.adult) AS Adult, SUM(p.kid) AS Kid FROM pharmacy AS p 
