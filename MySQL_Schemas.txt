@@ -1,4 +1,4 @@
-----------«Ø¥ß¸ê®Æ®w»P¸ê®Æªí³æ----------
+----------å»ºç«‹è³‡æ–™åº«èˆ‡è³‡æ–™è¡¨å–®----------
 CREATE DATABASE `mask` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `county` (
@@ -29,65 +29,3 @@ CREATE TABLE `pharmacy` (
     FOREIGN KEY (`county_id`) REFERENCES county(`county_id`),
     FOREIGN KEY (`district_id`) REFERENCES district(`district_id`)
 ) ENGINE=InnoDB CHARACTER SET=utf8;
-
-----------­«·s¦s¨ú¸ê®Æ®w----------
-delete from pharmacy ;
-delete from district ;
-delete from county ;
-ALTER TABLE county AUTO_INCREMENT = 1 ;
-ALTER TABLE district AUTO_INCREMENT = 1 ;
-
-----------¬Ý¦U¿¤¥«ªº¤f¸n¼Æ¶q----------
-SELECT CASE c.name 
-WHEN '°ò¶©' THEN '°ò¶©'
-WHEN '¥x¥_' THEN '¥x¥_'
-WHEN '·s¥_' THEN '·s¥_'
-WHEN '®ç¶é' THEN '®ç¶é'
-WHEN '·s¦Ë' THEN '·s¦Ë'
-WHEN '­]®ß' THEN '­]®ß'
-WHEN '»O¤¤' THEN '¥x¤¤'
-WHEN '¥x¤¤' THEN '¥x¤¤'
-WHEN '«n§ë' THEN '«n§ë'
-WHEN '¹ü¤Æ' THEN '¹ü¤Æ'
-WHEN '¶³ªL' THEN '¶³ªL'
-WHEN '¹Å¸q' THEN '¹Å¸q'
-WHEN '¥x«n' THEN '¥x«n'
-WHEN '°ª¶¯' THEN '°ª¶¯'
-WHEN '«ÌªF' THEN '«ÌªF'
-WHEN '©yÄõ' THEN '©yÄõ'
-WHEN 'ªá½¬' THEN 'ªá½¬'
-WHEN '¥xªF' THEN '¥xªF'
-WHEN '³s¦¿' THEN '³s¦¿'
-WHEN '¼ê´ò' THEN '¼ê´ò'
-WHEN 'ª÷ªù' THEN 'ª÷ªù'
-END AS County, SUM(p.adult) AS Adult, SUM(p.kid) AS Kid FROM pharmacy AS p 
-INNER JOIN county AS c ON p.county_id = c.county_id 
-GROUP BY CASE c.name 
-WHEN '°ò¶©' THEN '°ò¶©'
-WHEN '¥x¥_' THEN '¥x¥_'
-WHEN '·s¥_' THEN '·s¥_'
-WHEN '®ç¶é' THEN '®ç¶é'
-WHEN '·s¦Ë' THEN '·s¦Ë'
-WHEN '­]®ß' THEN '­]®ß'
-WHEN '»O¤¤' THEN '¥x¤¤'
-WHEN '¥x¤¤' THEN '¥x¤¤'
-WHEN '«n§ë' THEN '«n§ë'
-WHEN '¹ü¤Æ' THEN '¹ü¤Æ'
-WHEN '¶³ªL' THEN '¶³ªL'
-WHEN '¹Å¸q' THEN '¹Å¸q'
-WHEN '¥x«n' THEN '¥x«n'
-WHEN '°ª¶¯' THEN '°ª¶¯'
-WHEN '«ÌªF' THEN '«ÌªF'
-WHEN '©yÄõ' THEN '©yÄõ'
-WHEN 'ªá½¬' THEN 'ªá½¬'
-WHEN '¥xªF' THEN '¥xªF'
-WHEN '³s¦¿' THEN '³s¦¿'
-WHEN '¼ê´ò' THEN '¼ê´ò'
-WHEN 'ª÷ªù' THEN 'ª÷ªù'
-END ;
-
-----------¬Ý¦U°Ï¶mÂíªº¤f¸n¼Æ¶q----------
-SELECT c.name AS County, d.name AS District, SUM(p.adult) AS Adult, SUM(p.kid) AS Kid FROM pharmacy AS p 
-INNER JOIN county AS c ON p.county_id = c.county_id 
-INNER JOIN district AS d ON p.district_id = d.district_id 
-GROUP BY d.district_id ;
