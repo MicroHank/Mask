@@ -148,8 +148,8 @@
 			$district = mb_substr($pharmacy[2], 3, 2) ; // 區鎮
 			$location_id = $location_map[$county][$district] ; // [county_id, district_id]
 
-			if (in_array($pharmacy[0], $exists_pharmacy_code)) {
-				DB::insertUpdate("pharmacy", array(
+			if (! in_array($pharmacy[0], $exists_pharmacy_code)) {
+				\DB::insertIgnore("pharmacy", array(
 					"code" 		  => $pharmacy[0],
 					"county_id"   => (int) $location_id[0],
 					"district_id" => (int) $location_id[1],
@@ -163,7 +163,7 @@
 				$add_pharmacy++ ;
 			}
 			else {
-				DB::update("pharmacy", array(
+				\DB::update("pharmacy", array(
 					"adult" 	  => $pharmacy[4],
 					"kid"		  => $pharmacy[5],
 					"updated_at"  => $pharmacy[6],
@@ -171,8 +171,9 @@
 				$update_pharmacy++ ;
 			}
 		}
+
 		\DB::commit() ;
-		$log->info("新增藥局 $add_pharmacy 間, 更新藥局 $update_pharmacy", __FILE__, array()) ;
+		$log->info("新增藥局數：$add_pharmacy, 更新藥局數：$update_pharmacy", __FILE__, array()) ;
 
 	} catch (\Exception $e) {
 		$log->info($e->getMessage(), __FILE__, array()) ;
