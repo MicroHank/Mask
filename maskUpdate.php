@@ -30,6 +30,7 @@
 			$source = preg_replace("/９５０台東市/", "台東市", $source) ;
 			$source = preg_replace("/為澎湖縣/", "澎湖縣", $source) ;
 			$source = preg_replace("/淡水區新市一路３段１０３號/", "新北市淡水區新市一路３段１０３號", $source) ;
+			// 全形數字
 			$source = preg_replace("/１/", "1", $source) ;
 			$source = preg_replace("/２/", "2", $source) ;
 			$source = preg_replace("/３/", "3", $source) ;
