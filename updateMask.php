@@ -5,7 +5,7 @@
 	 *  由地址處理 縣市區鄉鎮資料，儲存在 county 與 district 表單
 	 *  將所有藥局供應現況，儲存在 pharmacy 表單
 	 */
-	include "vendor/autoload.php" ;
+	include __DIR__."/vendor/autoload.php" ;
 
 	use League\Csv\Reader ;
 	use Henwen\Logger\Log ;
@@ -13,12 +13,10 @@
     //----------------------取得口罩公開資料--------------------------//
 	try {
 		$log = new Log() ;
-
 		$log->info("取得口罩公開資料", __FILE__, array()) ;
-
 		$source = file_get_contents("https://data.nhi.gov.tw/resource/mask/maskdata.csv") ;
-
-		// Check File Is Okay
+		
+		// 取得到檔案內容
 		if (! empty($source)) {
 			$log->info("處理資料", __FILE__, array()) ;
 			$source = preg_replace("/臺北市/", "台北市", $source) ;
@@ -48,7 +46,7 @@
 			}
 		}
 		else {
-			throw new \Exception("取得口罩公開資料：失敗", 1) ;
+			$log->info("取得口罩公開資料：失敗", __FILE__, array()) ;
 			exit ;
 		}
 

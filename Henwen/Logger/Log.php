@@ -5,7 +5,6 @@
 	use Monolog\Handler\StreamHandler ;
 	use Monolog\Handler\MongoDBHandler ;
 	use Monolog\Formatter\LineFormatter ;
-	use Henwen\Common\IP ;
 
 	class Log
 	{
@@ -34,28 +33,28 @@
 		public function info($message = "", $file = "", $context = [])
 		{
 			$logger = new Logger($file) ;
-			$stream = new StreamHandler('log/info.log', Logger::INFO) ;
+			$stream = new StreamHandler(__DIR__.'/../../log/info.log', Logger::INFO) ;
 			$stream->setFormatter($this->formatter) ;
 			$logger->pushHandler($stream) ;
-			$logger->info("[IP=". IP::get() ."] ". $message, $context) ;
+			$logger->info($message, $context) ;
 		}
 
 		public function warning($message = "", $file = "", $context = [])
 		{
 			$logger = new Logger($file) ;
-			$stream = new StreamHandler('log/warning.log', Logger::WARNING) ;
+			$stream = new StreamHandler(__DIR__.'/../../log/info.log', Logger::WARNING) ;
 			$stream->setFormatter($this->formatter) ;
 			$logger->pushHandler($stream) ;
-			$logger->info("[IP=". IP::get() ."] ". $message, $context) ;
+			$logger->info($message, $context) ;
 		}
 
 		public function error($message = "", $file = "", $context = [])
 		{
 			$logger = new Logger($file) ;
-			$stream = new StreamHandler('log/error.log', Logger::ERROR) ;
+			$stream = new StreamHandler(__DIR__.'/../../log/info.log', Logger::ERROR) ;
 			$stream->setFormatter($this->formatter) ;
 			$logger->pushHandler($stream) ;
-			$logger->info("[IP=". IP::get() ."] ". $message, $context) ;
+			$logger->info($message, $context) ;
 		}
 
 
