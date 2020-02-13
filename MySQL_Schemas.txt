@@ -1,4 +1,4 @@
-----------«Ø¥ß¸ê®Æ®w»P¸ê®Æªí³æ----------
+ï»¿----------å»ºç«‹è³‡æ–™åº«èˆ‡è³‡æ–™è¡¨å–®----------
 CREATE DATABASE `mask` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `county` (

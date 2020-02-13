@@ -1,12 +1,14 @@
-----------¬İ¦U¿¤¥«ªº¤f¸n¼Æ¶q----------
+----------Â¬çœ‹å„ç¸£å¸‚å£ç½©å‰©é¤˜ç‹€æ³----------
 SELECT c.name AS County, SUM(p.adult) AS Adult, SUM(p.kid) AS Kid FROM pharmacy AS p 
 INNER JOIN county AS c ON p.county_id = c.county_id 
 GROUP BY c.name ORDER BY SUM(p.adult) DESC, SUM(p.kid) ;
-----------¬İ¦U°Ï¶mÂíªº¤f¸n¼Æ¶q----------
+
+----------çœ‹å£ç½©å„å€åˆ†å¸ƒç‹€æ…‹----------
 SELECT c.name AS County, d.name AS District, SUM(p.adult) AS Adult, SUM(p.kid) AS Kid FROM pharmacy AS p 
 INNER JOIN county AS c ON p.county_id = c.county_id 
 INNER JOIN district AS d ON p.district_id = d.district_id 
 GROUP BY d.district_id ;
----------¬İ«ü©w°Ï¶mÂíªº¤f¸n¼Æ¶q----------
+
+----------æŸ¥è©¢æŒ‡å®šå€é„‰é®çš„è—¥å±€ç¾æ³æ¸…å–®----------
 SELECT p.name , p.addr, p.adult, p.kid, p.updated_at FROM pharmacy AS p INNER JOIN district AS d ON p.district_id = d.district_id
-WHERE d.name = "¦è¤Ù" ORDER BY p.adult DESC, p.kid DESC ;
+WHERE d.name = "è¥¿å±¯" ORDER BY p.adult DESC, p.kid DESC ;
