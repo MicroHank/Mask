@@ -5,7 +5,7 @@ CREATE TABLE `county` (
     `county_id` INT(2) NOT NULL auto_increment,
     `name` VARCHAR(10)  NOT NULL,
     PRIMARY KEY(`county_id`)
-) ENGINE=InnoDB CHARACTER SET=utf8;
+) ENGINE=InnoDB CHARACTER SET=utf8 ;
 
 CREATE TABLE `district` (
     `district_id` INT(2) NOT NULL auto_increment,
@@ -13,7 +13,7 @@ CREATE TABLE `district` (
     `name` VARCHAR(10)  NOT NULL,
     PRIMARY KEY(`district_id`),
     FOREIGN KEY (`county_id`) REFERENCES county(`county_id`)
-) ENGINE=InnoDB CHARACTER SET=utf8;
+) ENGINE=InnoDB CHARACTER SET=utf8 ;
 
 CREATE TABLE `pharmacy` (
     `code` char(10) NOT NULL,
@@ -28,66 +28,4 @@ CREATE TABLE `pharmacy` (
     PRIMARY KEY(`code`),
     FOREIGN KEY (`county_id`) REFERENCES county(`county_id`),
     FOREIGN KEY (`district_id`) REFERENCES district(`district_id`)
-) ENGINE=InnoDB CHARACTER SET=utf8;
-
-----------重新存取資料庫----------
-delete from pharmacy ;
-delete from district ;
-delete from county ;
-ALTER TABLE county AUTO_INCREMENT = 1 ;
-ALTER TABLE district AUTO_INCREMENT = 1 ;
-
-----------看各縣市的口罩數量----------
-SELECT CASE c.name 
-WHEN '基隆' THEN '基隆'
-WHEN '台北' THEN '台北'
-WHEN '新北' THEN '新北'
-WHEN '桃園' THEN '桃園'
-WHEN '新竹' THEN '新竹'
-WHEN '苗栗' THEN '苗栗'
-WHEN '臺中' THEN '台中'
-WHEN '台中' THEN '台中'
-WHEN '南投' THEN '南投'
-WHEN '彰化' THEN '彰化'
-WHEN '雲林' THEN '雲林'
-WHEN '嘉義' THEN '嘉義'
-WHEN '台南' THEN '台南'
-WHEN '高雄' THEN '高雄'
-WHEN '屏東' THEN '屏東'
-WHEN '宜蘭' THEN '宜蘭'
-WHEN '花蓮' THEN '花蓮'
-WHEN '台東' THEN '台東'
-WHEN '連江' THEN '連江'
-WHEN '澎湖' THEN '澎湖'
-WHEN '金門' THEN '金門'
-END AS County, SUM(p.adult) AS Adult, SUM(p.kid) AS Kid FROM pharmacy AS p 
-INNER JOIN county AS c ON p.county_id = c.county_id 
-GROUP BY CASE c.name 
-WHEN '基隆' THEN '基隆'
-WHEN '台北' THEN '台北'
-WHEN '新北' THEN '新北'
-WHEN '桃園' THEN '桃園'
-WHEN '新竹' THEN '新竹'
-WHEN '苗栗' THEN '苗栗'
-WHEN '臺中' THEN '台中'
-WHEN '台中' THEN '台中'
-WHEN '南投' THEN '南投'
-WHEN '彰化' THEN '彰化'
-WHEN '雲林' THEN '雲林'
-WHEN '嘉義' THEN '嘉義'
-WHEN '台南' THEN '台南'
-WHEN '高雄' THEN '高雄'
-WHEN '屏東' THEN '屏東'
-WHEN '宜蘭' THEN '宜蘭'
-WHEN '花蓮' THEN '花蓮'
-WHEN '台東' THEN '台東'
-WHEN '連江' THEN '連江'
-WHEN '澎湖' THEN '澎湖'
-WHEN '金門' THEN '金門'
-END ;
-
-----------看各區鄉鎮的口罩數量----------
-SELECT c.name AS County, d.name AS District, SUM(p.adult) AS Adult, SUM(p.kid) AS Kid FROM pharmacy AS p 
-INNER JOIN county AS c ON p.county_id = c.county_id 
-INNER JOIN district AS d ON p.district_id = d.district_id 
-GROUP BY d.district_id ;
+) ENGINE=InnoDB CHARACTER SET=utf8 ;

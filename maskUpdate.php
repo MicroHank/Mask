@@ -24,11 +24,22 @@
 			$source = preg_replace("/臺北市/", "台北市", $source) ;
 			$source = preg_replace("/臺中縣/", "台中市", $source) ;
 			$source = preg_replace("/臺中市/", "台中市", $source) ;
+			$source = preg_replace("/臺中巿北屯區/", "台中市北屯區", $source) ;
 			$source = preg_replace("/臺南市/", "台南市", $source) ;
 			$source = preg_replace("/臺東縣/", "台東縣", $source) ;
 			$source = preg_replace("/９５０台東市/", "台東市", $source) ;
 			$source = preg_replace("/為澎湖縣/", "澎湖縣", $source) ;
 			$source = preg_replace("/淡水區新市一路３段１０３號/", "新北市淡水區新市一路３段１０３號", $source) ;
+			$source = preg_replace("/１/", "1", $source) ;
+			$source = preg_replace("/２/", "2", $source) ;
+			$source = preg_replace("/３/", "3", $source) ;
+			$source = preg_replace("/４/", "4", $source) ;
+			$source = preg_replace("/５/", "5", $source) ;
+			$source = preg_replace("/６/", "6", $source) ;
+			$source = preg_replace("/７/", "7", $source) ;
+			$source = preg_replace("/８/", "8", $source) ;
+			$source = preg_replace("/９/", "9", $source) ;
+			$source = preg_replace("/０/", "0", $source) ;
 			
 			$log->info("將資料寫入 maskdata_new.csv 檔案", __FILE__, array()) ;
 			if (file_put_contents("csv/maskdata_new.csv", $source)) {
