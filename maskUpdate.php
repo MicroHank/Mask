@@ -138,24 +138,41 @@
 			$location_map[$obj["county_name"]][$obj["district_name"]] = [$obj["county_id"], $obj["district_id"]] ;
 		}
 
+		// 取出所有的藥局代碼
+		$exists_pharmacy_code = \DB::queryFirstColumn("SELECT code FROM pharmacy") ;
+		$add_pharmacy = 0 ;
+		$update_pharmacy = 0 ;
+
 		foreach ($data as $pharmacy) {
 			$county = mb_substr($pharmacy[2], 0, 2) ; // 縣市
 			$district = mb_substr($pharmacy[2], 3, 2) ; // 區鎮
 			$location_id = $location_map[$county][$district] ; // [county_id, district_id]
 
-			DB::insertUpdate("pharmacy", array(
-				"code" 		  => $pharmacy[0],
-				"county_id"   => (int) $location_id[0],
-				"district_id" => (int) $location_id[1],
-				"name" 		  => $pharmacy[1],
-				"addr" 		  => $pharmacy[2],
-				"phone" 	  => $pharmacy[3],
-				"adult" 	  => $pharmacy[4],
-				"kid"		  => $pharmacy[5],
-				"updated_at"  => $pharmacy[6],
-			), "code=%s", $pharmacy[0]) ;
+			if (in_array($pharmacy[0], $exists_pharmacy_code)) {
+				DB::insertUpdate("pharmacy", array(
+					"code" 		  => $pharmacy[0],
+					"county_id"   => (int) $location_id[0],
+					"district_id" => (int) $location_id[1],
+					"name" 		  => $pharmacy[1],
+					"addr" 		  => $pharmacy[2],
+					"phone" 	  => $pharmacy[3],
+					"adult" 	  => $pharmacy[4],
+					"kid"		  => $pharmacy[5],
+					"updated_at"  => $pharmacy[6],
+				)) ;
+				$add_pharmacy++ ;
+			}
+			else {
+				DB::update("pharmacy", array(
+					"adult" 	  => $pharmacy[4],
+					"kid"		  => $pharmacy[5],
+					"updated_at"  => $pharmacy[6],
+				), "code=%s", $pharmacy[0]) ;
+				$update_pharmacy++ ;
+			}
 		}
 		\DB::commit() ;
+		$log->info("新增藥局 $add_pharmacy 間, 更新藥局 $update_pharmacy", __FILE__, array()) ;
 
 	} catch (\Exception $e) {
 		$log->info($e->getMessage(), __FILE__, array()) ;
