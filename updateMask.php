@@ -5,7 +5,7 @@
 	 *  由地址處理 縣市區鄉鎮資料，儲存在 county 與 district 表單
 	 *  將所有藥局供應現況，儲存在 pharmacy 表單
 	 */
-	include __DIR__."/vendor/autoload.php" ;
+	include "E:/xampp/htdocs/mask/vendor/autoload.php" ;
 
 	use League\Csv\Reader ;
 	use Henwen\Logger\Log ;
@@ -14,7 +14,7 @@
 	try {
 		$log = new Log() ;
 		$log->info("取得口罩公開資料", __FILE__, array()) ;
-		$source = file_get_contents("https://data.nhi.gov.tw/resource/mask/maskdata.csv") ;
+		$source = file_get_contents(SOURCE_FILE) ;
 		
 		// 取得到檔案內容
 		if (! empty($source)) {
@@ -41,8 +41,11 @@
 			$source = preg_replace("/０/", "0", $source) ;
 			
 			$log->info("將資料寫入 maskdata_new.csv 檔案", __FILE__, array()) ;
-			if (file_put_contents("csv/maskdata_new.csv", $source)) {
+			if (file_put_contents(MASK_DIR."/csv/maskdata_new.csv", $source)) {
 				$log->info("寫入 maskdata_new.csv 檔案成功", __FILE__, array()) ;
+			}
+			else {
+				$log->info("寫入 maskdata_new.csv 檔案失敗", __FILE__, array()) ;
 			}
 		}
 		else {
@@ -50,10 +53,13 @@
 			exit ;
 		}
 
-		if (is_file("csv/maskdata_new.csv")) {
+		if (is_file(MASK_DIR."/csv/maskdata_new.csv")) {
 			$log->info("複製 maskdata_new.csv 至 maskdata.csv", __FILE__, array()) ;
-			if (copy("csv/maskdata_new.csv", "csv/maskdata.csv")) {
+			if (copy(MASK_DIR."/csv/maskdata_new.csv", MASK_DIR."/csv/maskdata.csv")) {
 				$log->info("複製 maskdata_new.csv 至 maskdata.csv 成功", __FILE__, array()) ;
+			}
+			else {
+				$log->info("複製 maskdata_new.csv 至 maskdata.csv 失敗", __FILE__, array()) ;
 			}
 		}
 	} catch (\Exception $e) {
@@ -65,7 +71,7 @@
 	try {
 		$log->info("處理資料陣列：縣市區鄉鎮", __FILE__, array()) ;
 		// Handle data to MySQL
-		$reader = Reader::createFromPath('csv\maskdata.csv', 'r') ;
+		$reader = Reader::createFromPath(MASK_DIR."/csv/maskdata.csv", "r") ;
 		$data = $reader->fetchAll() ;
 		array_shift($data) ; // 移除標題列
 

@@ -33,7 +33,7 @@
 		public function info($message = "", $file = "", $context = [])
 		{
 			$logger = new Logger($file) ;
-			$stream = new StreamHandler(__DIR__.'/../../log/info.log', Logger::INFO) ;
+			$stream = new StreamHandler(MASK_DIR.'/log/info.log', Logger::INFO) ;
 			$stream->setFormatter($this->formatter) ;
 			$logger->pushHandler($stream) ;
 			$logger->info($message, $context) ;
@@ -42,7 +42,7 @@
 		public function warning($message = "", $file = "", $context = [])
 		{
 			$logger = new Logger($file) ;
-			$stream = new StreamHandler(__DIR__.'/../../log/info.log', Logger::WARNING) ;
+			$stream = new StreamHandler(MASK_DIR.'/log/info.log', Logger::WARNING) ;
 			$stream->setFormatter($this->formatter) ;
 			$logger->pushHandler($stream) ;
 			$logger->info($message, $context) ;
@@ -51,7 +51,7 @@
 		public function error($message = "", $file = "", $context = [])
 		{
 			$logger = new Logger($file) ;
-			$stream = new StreamHandler(__DIR__.'/../../log/info.log', Logger::ERROR) ;
+			$stream = new StreamHandler(MASK_DIR.'/log/error.log', Logger::ERROR) ;
 			$stream->setFormatter($this->formatter) ;
 			$logger->pushHandler($stream) ;
 			$logger->info($message, $context) ;
