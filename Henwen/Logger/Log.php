@@ -11,7 +11,7 @@
 		// Class "LineFormatter" 實體與相關參數
 		private $formatter ;
 		private $log_date = "Y-m-d H:i:s" ;
-		private $log_output = "[%datetime%] %channel%.%level_name%: %message% %context%\n" ;
+		private $log_output = "[%datetime%] %channel%.%level_name%: %message%\n" ;
 
 		// MongoDB 連線資源、 連線資料庫名稱、連線集合名稱
 		private $conn ;
@@ -30,7 +30,7 @@
 	        Logger::setTimezone(new \DateTimeZone("Asia/Taipei")) ;
 	    }
 
-		public function info($message = "", $file = "", $context = [])
+		public function info($message = "", $file = "")
 		{
 			$logger = new Logger($file) ;
 			$stream = new StreamHandler(MASK_DIR.'/log/info.log', Logger::INFO) ;
@@ -39,7 +39,7 @@
 			$logger->info($message, $context) ;
 		}
 
-		public function warning($message = "", $file = "", $context = [])
+		public function warning($message = "", $file = "")
 		{
 			$logger = new Logger($file) ;
 			$stream = new StreamHandler(MASK_DIR.'/log/info.log', Logger::WARNING) ;
@@ -48,7 +48,7 @@
 			$logger->info($message, $context) ;
 		}
 
-		public function error($message = "", $file = "", $context = [])
+		public function error($message = "", $file = "")
 		{
 			$logger = new Logger($file) ;
 			$stream = new StreamHandler(MASK_DIR.'/log/error.log', Logger::ERROR) ;
