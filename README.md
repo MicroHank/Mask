@@ -1,4 +1,4 @@
-資料來源: https://data.nhi.gov.tw/resource/mask/maskdata.csv
+﻿資料來源: https://data.nhi.gov.tw/resource/mask/maskdata.csv
 
 maskUpdate.php 取得公開資料 -> 將縣市區鄉鎮資料寫入 county, district -> 將藥局口罩現況寫入 pharmacy
 
@@ -32,8 +32,20 @@ CREATE TABLE `pharmacy` (
     `phone` VARCHAR(14) DEFAULT NULL,
     `adult` TINYINT(1) DEFAULT 0,
     `kid` TINYINT(1) DEFAULT 0,
-    `updated_at` DATETIME,
+    `updated_at` CHAR(20),
     PRIMARY KEY(`code`),
     FOREIGN KEY (`county_id`) REFERENCES county(`county_id`),
     FOREIGN KEY (`district_id`) REFERENCES district(`district_id`)
+) ENGINE=InnoDB CHARACTER SET=utf8;
+
+CREATE TABLE `pharmacy_temp` (
+    `code` char(10) NOT NULL,
+    `county_id` INT(2) NOT NULL,
+    `district_id` INT(2) NOT NULL,
+    `name` VARCHAR(50) NOT NULL,
+    `addr` VARCHAR(100) NOT NULL,
+    `phone` VARCHAR(14) DEFAULT NULL,
+    `adult` TINYINT(1) DEFAULT 0,
+    `kid` TINYINT(1) DEFAULT 0,
+    `updated_at`  CHAR(20)
 ) ENGINE=InnoDB CHARACTER SET=utf8;
