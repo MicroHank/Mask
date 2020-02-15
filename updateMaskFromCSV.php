@@ -18,7 +18,7 @@
 		
 		// 取得到檔案內容
 		if (! empty($source)) {
-			$log->info("處理資料", __FILE__) ;
+			$log->info("處理來源資料字串, 讓資料較完整", __FILE__) ;
 			$source = preg_replace("/臺北市/", "台北市", $source) ;
 			$source = preg_replace("/臺中縣/", "台中市", $source) ;
 			$source = preg_replace("/臺中市/", "台中市", $source) ;
@@ -151,19 +151,31 @@
 	        $writer->insertOne([$pharmacy[0], (int) $location_id[0], (int) $location_id[1], $pharmacy[1], $pharmacy[2], $pharmacy[3], $pharmacy[4], $pharmacy[5], $pharmacy[6]]);
 		}
 
-		// 先將藥局資訊清除, 再由 CSV 檔重新寫入至資料庫, 效率較高
-		\DB::query("DELETE FROM pharmacy") ;
+		// 先將本次取得藥局資訊寫到暫存資料表 pharmacy_temp
 		\DB::query("LOAD DATA LOCAL INFILE '$target' 
-					INTO TABLE pharmacy 
+					INTO TABLE pharmacy_temp 
 					FIELDS TERMINATED BY ',' 
 					LINES TERMINATED BY '\n' 
 					IGNORE 1 LINES
 					(code, county_id, district_id, name, addr, phone, adult, kid, updated_at)") ;
-		\DB::query("UPDATE pharmacy SET updated_at = substr(updated_at, 2)") ;
-		$total = \DB::queryFirstField("SELECT count(code) AS total FROM pharmacy") ;
+
+		// 處理時間字串 "2020-02-15 20:10:30 移除第一個字元: League\CSV 寫入後的字元 ", 待處理
+		\DB::query("UPDATE pharmacy_temp SET updated_at = substr(updated_at, 2)") ;
+
+		// 計算處理藥局數量
+		$total = \DB::queryFirstField("SELECT count(code) AS total FROM pharmacy_temp") ;
+		$log->info("處理藥局數量：$total", __FILE__) ;
+
+		// 從暫存資料表 pharmacy_temp 更新資料至正式資料表 pharmacy
+		\DB::query("INSERT INTO pharmacy
+					SELECT * FROM pharmacy_temp ON DUPLICATE KEY
+					UPDATE adult = VALUES(adult), kid = VALUES(kid), updated_at = VALUES(updated_at)
+			") ;
+
+		// 移除暫存資料表的資料
+		\DB::query("DELETE FROM pharmacy_temp") ;
+
 		\DB::commit() ;
-		
-		$log->info("寫入藥局數量：$total", __FILE__) ;
 	} catch (\Exception $e) {
 		$log->info($e->getMessage(), __FILE__) ;
 		exit ;
