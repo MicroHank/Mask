@@ -49,3 +49,11 @@ CREATE TABLE `pharmacy_temp` (
     `kid` TINYINT(1) DEFAULT 0,
     `updated_at`  CHAR(20)
 ) ENGINE=InnoDB CHARACTER SET=utf8;
+
+CREATE TABLE `pharmacy_day` (
+    `code` char(10) NOT NULL,
+    `adult` TINYINT(1) DEFAULT 0,
+    `kid` TINYINT(1) DEFAULT 0,
+    `updated_at`  CHAR(20),
+    KEY `code` (`code`)
+) ENGINE=InnoDB CHARACTER SET=utf8;
