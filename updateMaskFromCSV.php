@@ -172,6 +172,9 @@
 					UPDATE adult = VALUES(adult), kid = VALUES(kid), updated_at = VALUES(updated_at)
 			") ;
 
+		// 從暫存資料表 pharmacy_temp 更新資料至正式資料表 pharmacy_day
+		\DB::query("INSERT INTO pharmacy_day SELECT code, adult, kid, updated_at FROM pharmacy_temp") ;
+
 		// 移除暫存資料表的資料
 		\DB::query("DELETE FROM pharmacy_temp") ;
 
