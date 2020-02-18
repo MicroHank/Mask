@@ -33,6 +33,8 @@ CREATE TABLE `pharmacy` (
     `adult` TINYINT(1) DEFAULT 0,
     `kid` TINYINT(1) DEFAULT 0,
     `updated_at` CHAR(20),
+    `start` CHAR(5),
+    `end` CHAR(5),
     PRIMARY KEY(`code`),
     FOREIGN KEY (`county_id`) REFERENCES county(`county_id`),
     FOREIGN KEY (`district_id`) REFERENCES district(`district_id`)
@@ -47,7 +49,9 @@ CREATE TABLE `pharmacy_temp` (
     `phone` VARCHAR(14) DEFAULT NULL,
     `adult` TINYINT(1) DEFAULT 0,
     `kid` TINYINT(1) DEFAULT 0,
-    `updated_at`  CHAR(20)
+    `updated_at`  CHAR(20),
+    `start` CHAR(5),
+    `end` CHAR(5)
 ) ENGINE=InnoDB CHARACTER SET=utf8;
 
 // 每日口罩販賣各時間點數量
