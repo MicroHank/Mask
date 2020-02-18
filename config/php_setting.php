@@ -3,6 +3,8 @@
 	define("SOURCE_FILE", "https://data.nhi.gov.tw/resource/mask/maskdata.csv") ;
 
 	ini_set("max_execution_time", 600) ;
+	ini_set("memory_limit","1024M") ;
+
 	date_default_timezone_set("Asia/Taipei") ;
 
     // 註冊錯誤處理器
