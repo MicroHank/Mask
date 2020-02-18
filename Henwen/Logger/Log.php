@@ -36,7 +36,7 @@
 			$stream = new StreamHandler(MASK_DIR.'/log/info.log', Logger::INFO) ;
 			$stream->setFormatter($this->formatter) ;
 			$logger->pushHandler($stream) ;
-			$logger->info($message, $context) ;
+			$logger->info($message) ;
 		}
 
 		public function warning($message = "", $file = "")
@@ -45,7 +45,7 @@
 			$stream = new StreamHandler(MASK_DIR.'/log/info.log', Logger::WARNING) ;
 			$stream->setFormatter($this->formatter) ;
 			$logger->pushHandler($stream) ;
-			$logger->info($message, $context) ;
+			$logger->info($message) ;
 		}
 
 		public function error($message = "", $file = "")
@@ -54,7 +54,7 @@
 			$stream = new StreamHandler(MASK_DIR.'/log/error.log', Logger::ERROR) ;
 			$stream->setFormatter($this->formatter) ;
 			$logger->pushHandler($stream) ;
-			$logger->info($message, $context) ;
+			$logger->info($message) ;
 		}
 
 
