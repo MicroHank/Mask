@@ -71,7 +71,7 @@
 			    },
 			    yAxis: {
 			    	min: 0,
-			    	max: 200,
+			    	max: 150,
 			        title: {
 			            text: '口罩數量'
 			        }
