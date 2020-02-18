@@ -50,10 +50,18 @@ CREATE TABLE `pharmacy_temp` (
     `updated_at`  CHAR(20)
 ) ENGINE=InnoDB CHARACTER SET=utf8;
 
+// 每日口罩販賣各時間點數量
 CREATE TABLE `pharmacy_day` (
     `code` char(10) NOT NULL,
     `adult` TINYINT(1) DEFAULT 0,
     `kid` TINYINT(1) DEFAULT 0,
-    `updated_at`  CHAR(20),
+    `date` CHAR(10),
+    `updated_at` CHAR(5),
     KEY `code` (`code`)
 ) ENGINE=InnoDB CHARACTER SET=utf8;
+
+// Event: 清除昨日的口罩販賣歷史紀錄
+CREATE EVENT PurgeYesterdayMask
+ON SCHEDULE EVERY 6 HOUR 
+DO 
+    DELETE FROM `mask`.`pharmacy_day` WHERE `pharmacy_day`.`date` < TIME_FORMAT(CURRENT_TIMESTAMP, '%Y-%m-%d') ;
