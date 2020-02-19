@@ -1,6 +1,10 @@
 <?php
 	include __DIR__."/vendor/autoload.php" ;
 	
+	use Henwen\Logger\Log ;
+
+	$log = new Log() ;
+	
 	// 建立藥局代碼索引陣列
 	// 例如 $data['2317060014'] = ["start" => "開始販賣時間", "end" => "口罩小於 10 的時間", "history" => [歷史紀錄]]
 	$code = \DB::query("SELECT DISTINCT pd.code FROM pharmacy_day AS pd INNER JOIN pharmacy AS p ON pd.code = p.code ORDER BY pd.code, pd.updated_at") ;
@@ -51,31 +55,21 @@
 			}
 		}
 	}
-	
-	// 將販賣參考時段寫入暫存檔
-	// 將藥局寫在 CSV 檔案
-    $target = MASK_DIR."/csv/maskdata_selling.csv" ; 
-    $writer = \League\Csv\Writer::createFromPath($target) ;
-    $writer->setOutputBOM(\League\Csv\Reader::BOM_UTF8) ;
-    $writer->insertOne(["\xEF\xBB\xBF代碼", "開始販賣時間", "快結束"]) ;
-	foreach ($data as $code => $obj) {
-        $writer->insertOne([$code, $obj["start"], $obj["end"]]) ;
+
+	// 更新販賣時間
+	\DB::startTransaction() ;
+	try {
+		foreach ($data as $code => $array) {
+			\DB::update("pharmacy", 
+				array("start" => $data[$code]["start"], "end" => $data[$code]["end"]),
+				"code = %s", $code
+			) ;
+		}
+		\DB::commit() ;
+		$log->info("更新藥局口罩販賣時間完成", __FILE__) ;
+	} catch (\Exception $e) {
+		\DB::rollback() ;
+		$log->info($e->getMessage(), __FILE__) ;
+		exit ;
 	}
-
-	// 先將本次取得藥局資訊寫到暫存資料表 pharmacy_temp
-	\DB::query("LOAD DATA LOCAL INFILE '$target' 
-				INTO TABLE pharmacy_temp 
-				FIELDS TERMINATED BY ',' 
-				LINES TERMINATED BY '\n' 
-				IGNORE 1 LINES
-				(`code`, `start`, `end`)") ;
-
-	// 從暫存資料表 pharmacy_temp 更新資料至正式資料表 pharmacy
-	\DB::query("INSERT INTO pharmacy
-				SELECT * FROM pharmacy_temp ON DUPLICATE KEY
-				UPDATE `start` = VALUES(`start`), `end` = VALUES(`end`)
-		") ;
-
-	// 移除暫存資料表的資料
-	\DB::query("DELETE FROM pharmacy_temp") ;
 ?>
