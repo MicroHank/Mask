@@ -36,6 +36,9 @@ CREATE TABLE `pharmacy` (
     `start` CHAR(5),
     `end` CHAR(5),
     PRIMARY KEY(`code`),
+    KEY `county_id` (`county_id`),
+    KEY `district_id` (`district_id`),
+    KEY `start_end` (`start`,`end`),
     FOREIGN KEY (`county_id`) REFERENCES county(`county_id`),
     FOREIGN KEY (`district_id`) REFERENCES district(`district_id`)
 ) ENGINE=InnoDB CHARACTER SET=utf8;
@@ -51,7 +54,7 @@ CREATE TABLE `pharmacy_temp` (
     `kid` TINYINT(1) DEFAULT 0,
     `updated_at`  CHAR(20),
     `start` CHAR(5),
-    `end` CHAR(5)
+    `end` CHAR(5),
 ) ENGINE=InnoDB CHARACTER SET=utf8;
 
 // 每日口罩販賣各時間點數量
@@ -61,11 +64,10 @@ CREATE TABLE `pharmacy_day` (
     `kid` TINYINT(1) DEFAULT 0,
     `date` CHAR(10),
     `updated_at` CHAR(5),
-    KEY `code` (`code`)
+    KEY `code` (`code`),
+    KEY `date` (`date`),
+    KEY `updated_at` (`updated_at`)
 ) ENGINE=InnoDB CHARACTER SET=utf8;
 
-// Event: 清除昨日的口罩販賣歷史紀錄
-CREATE EVENT PurgeYesterdayMask
-ON SCHEDULE EVERY 6 HOUR 
-DO 
-    DELETE FROM `mask`.`pharmacy_day` WHERE `pharmacy_day`.`date` < TIME_FORMAT(CURRENT_TIMESTAMP, '%Y-%m-%d') ;
+// Event: 清除昨日的口罩販賣歷史紀錄, 每天早上 8:50 執行此任務
+DELETE FROM pharmacy_day WHERE `date` < TIME_FORMAT(CURRENT_TIMESTAMP, '%Y-%m-%d') ;
