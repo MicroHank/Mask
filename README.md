@@ -30,8 +30,8 @@ CREATE TABLE `pharmacy` (
     `name` VARCHAR(50) NOT NULL,
     `addr` VARCHAR(100) NOT NULL,
     `phone` VARCHAR(14) DEFAULT NULL,
-    `adult` TINYINT(1) DEFAULT 0,
-    `kid` TINYINT(1) DEFAULT 0,
+    `adult` INT(2) DEFAULT 0,
+    `kid` INT(2) DEFAULT 0,
     `updated_at` CHAR(20),
     `start` CHAR(5),
     `end` CHAR(5),
@@ -50,8 +50,8 @@ CREATE TABLE `pharmacy_temp` (
     `name` VARCHAR(50) NOT NULL,
     `addr` VARCHAR(100) NOT NULL,
     `phone` VARCHAR(14) DEFAULT NULL,
-    `adult` TINYINT(1) DEFAULT 0,
-    `kid` TINYINT(1) DEFAULT 0,
+    `adult` INT(2) DEFAULT 0,
+    `kid` INT(2) DEFAULT 0,
     `updated_at`  CHAR(20),
     `start` CHAR(5),
     `end` CHAR(5),
@@ -60,14 +60,14 @@ CREATE TABLE `pharmacy_temp` (
 // 每日口罩販賣各時間點數量
 CREATE TABLE `pharmacy_day` (
     `code` char(10) NOT NULL,
-    `adult` TINYINT(1) DEFAULT 0,
-    `kid` TINYINT(1) DEFAULT 0,
-    `date` CHAR(10),
+    `adult` INT(2) DEFAULT 0,
+    `kid` INT(2) DEFAULT 0,
     `updated_at` CHAR(5),
+    `date` CHAR(10),
     KEY `code` (`code`),
     KEY `date` (`date`),
     KEY `updated_at` (`updated_at`)
 ) ENGINE=InnoDB CHARACTER SET=utf8;
 
-// Event: 清除昨日的口罩販賣歷史紀錄, 每天早上 8:50 執行此任務
-DELETE FROM pharmacy_day WHERE `date` < TIME_FORMAT(CURRENT_TIMESTAMP, '%Y-%m-%d') ;
+// Event: 清除昨日的口罩販賣歷史紀錄
+DELETE FROM pharmacy_day WHERE `date` = subdate(current_date, 1) ;

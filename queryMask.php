@@ -21,12 +21,18 @@
 		<?php
 			include __DIR__."/vendor/autoload.php" ;
 
-			$district = ! empty($_GET["district"]) ? htmlentities($_GET["district"]) : "西屯" ;
+			$county   = ! empty($_GET["county"]) ? filter_var($_GET["county"]) : "台中" ;
+			$district = ! empty($_GET["district"]) ? filter_var($_GET["district"]) : "" ;
 
 			$sql = "SELECT p.code, p.name , p.addr, p.adult, p.kid, p.updated_at, p.start, p.end FROM pharmacy AS p 
 					INNER JOIN district AS d ON p.district_id = d.district_id
-					WHERE d.name = %s ORDER BY p.adult DESC, p.kid DESC" ;
-			$pharmacy = \DB::query($sql, $district) ;
+					INNER JOIN county AS c ON p.county_id = c.county_id
+					WHERE c.name = %s" ;
+			if (! empty($district))
+				$sql .= " AND d.name = %s" ;
+			$sql .= " ORDER BY p.adult DESC, p.kid DESC" ;
+
+			$pharmacy = \DB::query($sql, $county, $district) ;
 			
 			echo "<table>" ;
 			echo "<tr><td>藥局名稱</td><td>藥局地址</td><td>地圖</td><td>大人</td><td>小孩</td><td>開始販賣</td><td>數量小於10</td><td>更新時間</td><td>本日資料</td></tr>" ;
