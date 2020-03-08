@@ -152,23 +152,15 @@ foreach ($data as $code => $array) {
 2. 將 maskdata_new.csv 複製至 maskdata.csv，後續程式存取 maskdata.csv。
 
 3. 讀取 maskdata.csv
-
     3-1 處理地址資料字串：例如臺->台、全形數字->半形數字...等。
-
     3-2 處理縣市區鄉鎮區資料，儲存至地區資料表 county、district。
 
 4. 寫入資料庫；更新藥局口罩現況
-
     4-1 製作縣市鄉鎮區對應陣列
-
     4-2 將藥局資料包含縣市鄉鎮區編號，寫至 maskdata_new.csv 檔。
-
     4-3 從 maskdata_new.csv 寫入資料至暫存資料表 pharmacy_temp
-
     4-4 從 pharmacy_temp 更新(寫入)資料至 pharmacy，pharmacy 為讀取口罩現況使用之資料表。
-
     4-5 將當下抓到的口罩資料寫入 pharmacy_day，形成口罩販賣時間記錄。
-
     4-6 清除暫存資料表 pharmacy_temp
 
 檔案「queryMask.php」：從 pharmacy 取得口罩販賣現況。
