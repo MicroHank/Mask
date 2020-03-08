@@ -34,22 +34,22 @@
 		<?php
 			$data = \DB::query("SELECT adult, kid, updated_at FROM pharmacy_day WHERE code = %s", $code) ;
 			// 繪製表單
-			echo "<div><table>" ;
-			echo "<tr><td>更新時間</td><td>大人</td><td>小孩</td></tr>" ;
+			//echo "<div><table>" ;
+			//echo "<tr><td>更新時間</td><td>大人</td><td>小孩</td></tr>" ;
 			$x_time = array() ;
 			$y_adult = array() ;
 			$y_kid = array() ;
 			foreach ($data as $obj) {
-				echo "<tr>" ;
-				echo "<td>".$obj["updated_at"]."</td>" ;
-				echo "<td>".$obj["adult"]."</td>" ;
-				echo "<td>".$obj["kid"]."</td>" ;
-				echo "<tr />" ;
+				//echo "<tr>" ;
+				//echo "<td>".$obj["updated_at"]."</td>" ;
+				//echo "<td>".$obj["adult"]."</td>" ;
+				//echo "<td>".$obj["kid"]."</td>" ;
+				//echo "<tr />" ;
 				array_push($x_time, "'".$obj["updated_at"]."'") ;
 				array_push($y_adult, $obj["adult"]) ;
 				array_push($y_kid, $obj["kid"]) ;
 			}
-			echo "</table></div>" ;
+			//echo "</table></div>" ;
 		?>
 		<script type="text/javascript">
 			var x_time = <?php echo "[".join(",", $x_time)."]" ?> ;
