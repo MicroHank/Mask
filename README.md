@@ -1,4 +1,8 @@
-﻿資料來源: https://data.nhi.gov.tw/resource/mask/maskdata.csv
+﻿<h3>:mask: 口罩地圖練習</h3>
+<li>下載即時口罩資料: 來源 https://data.nhi.gov.tw/resource/mask/maskdata.csv</li>
+<li>處理資料: 台/臺、全形/半形數字、擷取鄉鎮縣市</li>
+<li>快速更新: 建立索引, 增加欄位更新效能</li>
+<li>儲存藥局各時間點販售狀況: 了解開賣時間、販售接近完畢之時間</li>
 
 [MySQL Schema]
 
